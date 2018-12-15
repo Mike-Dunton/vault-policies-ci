@@ -4,7 +4,7 @@ Workflow around validating and maintaining hashicorp vault policies
 
 ## What is this? 
 
-hHypothetical repository of vault policies based on team names. 
+Hypothetical repository of vault policies based on team names. 
 
 Features will include 
 - Auditing
