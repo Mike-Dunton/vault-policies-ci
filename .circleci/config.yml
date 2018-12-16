@@ -6,8 +6,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: git diff
+          command: git diff-tree --no-commit-id --name-only -r HEAD > /tmp/diff-files
+      - run:
           name: Greeting
           command: echo Hello, world.
       - run:
-          name: Print the Current Time
-          command: date
+          name: Print the Diff
+          command: cat /tmp/diff-files
+
