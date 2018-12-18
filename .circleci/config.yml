@@ -2,15 +2,12 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/buildpack-deps:disco-curl-browsers-legacy
     steps:
       - checkout
       - run:
           name: git diff
           command: git diff-tree --no-commit-id --name-only -r HEAD > /tmp/diff-files
-      - run:
-          name: Greeting
-          command: echo Hello, world.
       - run:
           name: Print the Diff
           command: cat /tmp/diff-files
