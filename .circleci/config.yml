@@ -3,7 +3,7 @@ version: 2
 jobs:
   flow:
     docker:
-      - image: circleci/classic:latest
+      - image: circleci/buildpack-deps:disco-curl-browsers-legacy
     working_directory: ~/vault-workflow
     steps:
       - checkout
