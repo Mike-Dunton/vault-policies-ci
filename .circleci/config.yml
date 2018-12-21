@@ -17,11 +17,14 @@ jobs:
 
   downstream:
     docker:
-      - image: michaeldunton/vault-policies-ci:0.0.1
+      - image: michaeldunton/vault-policies-ci:0.0.2
     working_directory: ~/vault-workflow
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: opa output
+          command: opa
       - run:
           name: Print the Diff
           command: cat diff-files
