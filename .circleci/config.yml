@@ -1,14 +1,36 @@
 version: 2
+
 jobs:
-  build:
+  flow:
     docker:
-      - image: circleci/buildpack-deps:disco-curl-browsers-legacy
+      - image: circleci/classic:latest
+    working_directory: ~/vault-workflow
     steps:
       - checkout
       - run:
           name: git diff
-          command: git diff-tree --no-commit-id --name-only -r HEAD > /tmp/diff-files
+          command: git diff --name-only master > diff-files
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/circleci-demo-workflows
+
+  downstream:
+    docker:
+      - image: michaeldunton/vault-policies-ci:0.0.1
+    working_directory: ~/vault-workflow
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Print the Diff
-          command: cat /tmp/diff-files
+          command: cat diff-files
 
+workflows:
+  version: 2
+  btd:
+    jobs:
+      - flow
+      - downstream:
+          requires:
+            - flow
