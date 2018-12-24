@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: git diff
-          command: git diff --name-only master > diff-files
+          command: git diff --name-only origin/master... > diff-files
       - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
