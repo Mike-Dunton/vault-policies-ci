@@ -1,5 +1,5 @@
 
-FROM gcr.io/distroless/base:latest
+FROM circleci/golang:1.11.4
 
 MAINTAINER Michael Dunton <mr.mikedunton@gmail.com>
 

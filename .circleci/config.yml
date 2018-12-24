@@ -3,7 +3,7 @@ version: 2
 jobs:
   flow:
     docker:
-      - image: circleci/buildpack-deps:disco-curl-browsers-legacy
+      - image: michaeldunton/vault-policies-ci:0.0.3
     working_directory: ~/vault-workflow
     steps:
       - checkout
@@ -17,7 +17,7 @@ jobs:
 
   downstream:
     docker:
-      - image: michaeldunton/vault-policies-ci:0.0.2
+      - image: michaeldunton/vault-policies-ci:0.0.3
     working_directory: ~/vault-workflow
     steps:
       - restore_cache:
