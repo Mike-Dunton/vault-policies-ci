@@ -1,0 +1,39 @@
+version: 2
+
+jobs:
+  flow:
+    docker:
+      - image: michaeldunton/vault-policies-ci:0.0.3
+    working_directory: ~/vault-workflow
+    steps:
+      - checkout
+      - run:
+          name: git diff
+          command: git diff --name-only origin/master... > diff-files
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/vault-workflow
+
+  downstream:
+    docker:
+      - image: michaeldunton/vault-policies-ci:0.0.3
+    working_directory: ~/vault-workflow
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: opa output
+          command: opa
+      - run:
+          name: Print the Diff
+          command: cat diff-files
+
+workflows:
+  version: 2
+  btd:
+    jobs:
+      - flow
+      - downstream:
+          requires:
+            - flow
